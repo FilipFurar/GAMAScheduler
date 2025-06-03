@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">GAMA Scheduler</string>
+    <string name="login">login</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="dev" translatable="false">furar@stud.uniza.sk</string>
+    <string name="movie">movie</string>
+    <string name="calendar">calendar</string>
+    <string name="add">add</string>
+    <string name="remove">remove</string>
+    <string name="logout">logout</string>
+</resources>

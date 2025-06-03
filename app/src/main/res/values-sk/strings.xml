@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GAMA Scheduler</string>
+    <string name="login">prihlásiť sa</string>
+    <string name="username">meno</string>
+    <string name="password">heslo</string>
+    <string name="movie">film</string>
+    <string name="calendar">kalendár</string>
+    <string name="add">pridať</string>
+    <string name="remove">odstrániť</string>
+    <string name="logout">odhlásiť sa</string>
+</resources>
