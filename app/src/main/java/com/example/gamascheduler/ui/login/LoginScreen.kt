@@ -1,4 +1,4 @@
-package com.example.gamascheduler.login
+package com.example.gamascheduler.ui.login
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,7 +13,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.example.gamascheduler.R
-import androidx.lifecycle.ViewModel
 
 @Composable
 fun LoginScreen() {
