@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.gamascheduler.data.model.Event
 import com.example.gamascheduler.data.repository.AuthRepository
 import com.example.gamascheduler.data.repository.EventRepository
+import com.google.firebase.crashlytics.internal.model.CrashlyticsReport.Session.Event.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -53,7 +54,7 @@ class CalendarViewModel @Inject constructor(
                 eventRepository.createEvent(event)
                 loadEvents()
             } catch (e: Exception) {
-                _addEventError.value = "Failed to add event: ${e.localizedMessage}"
+                _addEventError.value = e.localizedMessage
             } finally {
                 _isLoading.value = false
             }
@@ -75,6 +76,26 @@ class CalendarViewModel @Inject constructor(
     fun deleteAccount() {
         viewModelScope.launch {
             authRepository.deleteAccount()
+        }
+    }
+
+    fun toggleUserAssignment(event: Event) {
+        val userEmail = _userEmail.value ?: return
+        val updatedAssignedTo = if (userEmail in event.assignedTo) {
+            event.assignedTo - userEmail
+        } else {
+            event.assignedTo + userEmail
+        }
+
+        val updatedEvent = event.copy(assignedTo = updatedAssignedTo)
+
+        viewModelScope.launch {
+            try {
+                eventRepository.updateEvent(updatedEvent)
+                loadEvents()
+            } catch (e: Exception) {
+                println(e.localizedMessage)
+            }
         }
     }
 }

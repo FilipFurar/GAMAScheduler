@@ -49,12 +49,16 @@ fun CalendarScreen(
             AddEventFab(onClick = navigateToAddEvent)
         }
     ) { paddingValues ->
-        EventList(
-            events = events,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        )
+        userEmail?.let {
+            EventList(
+                events = events,
+                calendarViewModel = calendarViewModel,
+                userEmail = it,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            )
+        }
     }
 }
 
@@ -90,7 +94,10 @@ fun AddEventFab(onClick: () -> Unit) {
 }
 
 @Composable
-fun EventList(events: List<Event>, modifier: Modifier = Modifier) {
+fun EventList(events: List<Event>,
+              userEmail: String,
+              calendarViewModel: CalendarViewModel,
+              modifier: Modifier = Modifier) {
     if (events.isEmpty()) {
         Box(modifier = modifier, contentAlignment = Alignment.Center) {
             Text(stringResource(R.string.no_events), style = MaterialTheme.typography.bodyLarge)
@@ -102,27 +109,63 @@ fun EventList(events: List<Event>, modifier: Modifier = Modifier) {
             modifier = modifier
         ) {
             items(events) { event ->
-                EventItem(event)
+                EventItem(
+                    event = event,
+                    currentUserEmail = userEmail,
+                    onToggleAssigned = { calendarViewModel.toggleUserAssignment(event) }
+                )
             }
         }
     }
 }
 
 @Composable
-fun EventItem(event: Event) {
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Text(
-            text = event.title,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            text = event.happeningOn.toReadable(),
-            fontSize = 16.sp,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+fun EventItem(
+    event: Event,
+    currentUserEmail: String?,
+    onToggleAssigned: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = event.title,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = event.happeningOn.toReadable(),
+                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            currentUserEmail?.let {
+                Checkbox(
+                    checked = it in event.assignedTo,
+                    onCheckedChange = { onToggleAssigned() }
+                )
+            }
+        }
+
+        if (event.assignedTo.isNotEmpty()) {
+            Text(
+                text = "${stringResource(R.string.assigned)}\n ${event.assignedTo.joinToString()}",
+                fontSize = 12.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = 4.dp)
+            )
+        }
     }
 }
+
 
 @Composable
 fun Timestamp?.toReadable(): String {

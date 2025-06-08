@@ -22,4 +22,5 @@
     <string name="title">názov</string>
     <string name="required_field">povinné pole</string>
     <string name="pick_date">vyber dátum a čas</string>
+    <string name="assigned">prihlásení</string>
 </resources>

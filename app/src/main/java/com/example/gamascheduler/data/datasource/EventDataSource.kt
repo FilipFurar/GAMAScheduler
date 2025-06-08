@@ -37,8 +37,15 @@ class EventRemoteDataSource @Inject constructor(
     }
 
     suspend fun createEvent(event: Event) {
+        val docRef = firestore.collection(EVENT_COLLECTION).add(event).await()
+        docRef.update("id", docRef.id)
+    }
+
+
+    suspend fun updateEvent(event: Event) {
         firestore.collection(EVENT_COLLECTION)
-            .add(event)
+            .document(event.id)
+            .set(event)
             .await()
     }
 }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -16,8 +17,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FilterChip
+import androidx.compose.ui.draw.scale
 import androidx.compose.material3.Icon
+import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -240,21 +242,35 @@ private fun DateTimePickerDialog(
                 .wrapContentHeight()
                 .padding(dimensionResource(R.dimen.padding_medium))
         ) {
-            Column(modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium))) {
+            Column(modifier = Modifier.padding(dimensionResource(R.dimen.padding_small))) {
                 Text(
                     text = stringResource(R.string.pick_date),
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleSmall
                 )
 
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
+
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    DatePicker(
+                        state = datePickerState,
+                        modifier = Modifier
+                            .scale(0.8f) // scale down a bit
+                            .align(Alignment.Center)
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    TimePicker(
+                        state = timePickerState,
+                        modifier = Modifier
+                            .scale(0.8f)
+                            .align(Alignment.Center)
+                    )
+                }
+
                 Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
-
-                DatePicker(state = datePickerState)
-
-                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
-
-                TimePicker(state = timePickerState)
-
-                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_big)))
 
                 Row(
                     horizontalArrangement = Arrangement.End,

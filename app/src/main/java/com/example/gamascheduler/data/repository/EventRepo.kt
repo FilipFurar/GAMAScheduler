@@ -11,4 +11,6 @@ class EventRepository @Inject constructor(
     fun getEvents(): Flow<List<Event>> = remoteDataSource.getEvents()
 
     suspend fun createEvent(event: Event) = remoteDataSource.createEvent(event)
+
+    suspend fun updateEvent(event: Event) = remoteDataSource.updateEvent(event)
 }
