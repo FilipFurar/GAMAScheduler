@@ -1,4 +1,4 @@
-package com.example.gamascheduler.ui.auth.login
+package com.example.gamascheduler.ui.auth
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import com.example.gamascheduler.MainViewModel
@@ -15,11 +15,14 @@ data class LoginUIState(
 )
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
+class AuthViewModel @Inject constructor(
     private val authRepo: AuthRepository
 ) : MainViewModel() {
     private val _uiState = MutableStateFlow(LoginUIState())
     val uiState: StateFlow<LoginUIState> = _uiState.asStateFlow()
+
+    //get current user email
+    val userEmail: StateFlow<String?> = authRepo.userEmail
 
     init {
         println("LoginViewModel initialized")
@@ -28,11 +31,20 @@ class LoginViewModel @Inject constructor(
     fun logIn(
         email: String,
         password: String,
-        showErrorSnackbar: (ErrorMessage) -> Unit
+        showErrorSnackbar: (ErrorMessage) -> Unit,
+        onSuccess: () -> Unit
     ) {
         launchCatching(showErrorSnackbar) {
             authRepo.signIn(email, password)
-            println("tried logging in")
+            onSuccess()
+        }
+    }
+    fun logOut(
+        onSignedOut: () -> Unit
+    ) {
+        launchCatching {
+            authRepo.signOut()
+            onSignedOut()
         }
     }
 }

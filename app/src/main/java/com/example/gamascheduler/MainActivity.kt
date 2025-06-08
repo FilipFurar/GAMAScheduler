@@ -18,16 +18,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.gamascheduler.data.model.ErrorMessage
+import com.example.gamascheduler.ui.GamaApp
 import com.example.gamascheduler.ui.auth.login.LoginScreen
 import com.example.gamascheduler.ui.theme.GAMASchedulerTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-
-enum class SchedulerScreen() {
-    Login,
-    Home,
-    Signup,
-}
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -42,26 +37,19 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
                 ) { innerPadding ->
-                    val scope = rememberCoroutineScope()
-                    val navController = rememberNavController()
-                    val context = LocalContext.current
+                    val padding = innerPadding
                     // TODO
-                    val pad = innerPadding
-
-                    LoginScreen(
-                        showErrorSnackbar = { errorMessage ->
-                            val message = getErrorMessage(errorMessage)
-                            scope.launch { snackbarHostState.showSnackbar(message) }
+                    println("in MainActivity")
+                    GamaApp(
+                        getErrorMessage = { error ->
+                            when (error) {
+                                is ErrorMessage.StringError -> error.message
+                                is ErrorMessage.IdError -> this@MainActivity.getString(error.message)
+                            }
                         }
                     )
                 }
             }
-        }
-    }
-    private fun getErrorMessage(error: ErrorMessage): String {
-        return when (error) {
-            is ErrorMessage.StringError -> error.message
-            is ErrorMessage.IdError -> this@MainActivity.getString(error.message)
         }
     }
 }

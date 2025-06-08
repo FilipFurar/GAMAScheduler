@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">GAMA Scheduler</string>
     <string name="login">prihlásiť sa</string>
-    <string name="email">meno</string>
     <string name="password">heslo</string>
     <string name="movie">film</string>
     <string name="calendar">kalendár</string>
@@ -10,7 +9,9 @@
     <string name="remove">odstrániť</string>
     <string name="logout">odhlásiť sa</string>
     <string name="generic_error">chyba!</string>
-    <string name="wrong_password">Nesprávne prihlasovacie údaje</string>
-    <string name="email_in_use">E-mail už je registrovaný</string>
-    <string name="weak_password">Heslo je príliš slabé! Minimálna dĺžka 6 znakov</string>
+    <string name="wrong_password">nesprávne prihlasovacie údaje</string>
+    <string name="email_in_use">e-mail už je registrovaný</string>
+    <string name="weak_password">heslo je príliš slabé! Minimálna dĺžka 6 znakov</string>
+    <string name="calendar_screen">kalendár</string>
+    <string name="welcome">vitaj,</string>
 </resources>

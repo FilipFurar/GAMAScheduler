@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">GAMA Scheduler</string>
     <string name="login">login</string>
-    <string name="email">username</string>
+    <string name="email" translatable="false">e-mail</string>
     <string name="password">password</string>
     <string name="dev" translatable="false">furar@stud.uniza.sk</string>
     <string name="movie">movie</string>
@@ -10,7 +10,9 @@
     <string name="remove">remove</string>
     <string name="logout">logout</string>
     <string name="generic_error">error!</string>
-    <string name="wrong_password">Incorrect login details</string>
-    <string name="email_in_use">E-mail is already in use</string>
-    <string name="weak_password">Password is too weak! 6 chars minimum</string>
+    <string name="wrong_password">incorrect login details</string>
+    <string name="email_in_use">e-mail is already in use</string>
+    <string name="weak_password">password is too weak! 6 chars minimum</string>
+    <string name="calendar_screen">calendar</string>
+    <string name="welcome">welcome,</string>
 </resources>

@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Text
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,16 +17,17 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.NavHost
 import com.example.gamascheduler.R
 import com.example.gamascheduler.data.model.ErrorMessage
+import com.example.gamascheduler.ui.auth.AuthViewModel
 import com.example.gamascheduler.ui.shared.BasicButton
 
 @Composable
 fun LoginScreen(
-    loginViewModel: LoginViewModel = hiltViewModel(),
-    showErrorSnackbar: (ErrorMessage) -> Unit
-) {
+    authViewModel: AuthViewModel = hiltViewModel(),
+    showErrorSnackbar: (ErrorMessage) -> Unit,
+    navigateToCalendar: () -> Unit) {
+
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -61,7 +61,14 @@ fun LoginScreen(
             isError = false,
             keyboardActions = KeyboardActions(
                 onDone = {
-                    loginViewModel.logIn(email, password, showErrorSnackbar)
+                    authViewModel.logIn(
+                        email,
+                        password,
+                        showErrorSnackbar = showErrorSnackbar,
+                        onSuccess = {
+                            navigateToCalendar()
+                        }
+                    )
                 }
             )
         )
@@ -69,8 +76,14 @@ fun LoginScreen(
         BasicButton(
             label = R.string.login,
             onButtonClick = {
-                loginViewModel.logIn(email, password, showErrorSnackbar)
-                println("logging in with ${email} and ${password}")
+                authViewModel.logIn(
+                    email,
+                    password,
+                    showErrorSnackbar = showErrorSnackbar,
+                    onSuccess = {
+                        navigateToCalendar()
+                    }
+                )
             }
         )
     }
