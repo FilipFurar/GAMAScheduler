@@ -21,6 +21,9 @@ class LoginViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(LoginUIState())
     val uiState: StateFlow<LoginUIState> = _uiState.asStateFlow()
 
+    init {
+        println("LoginViewModel initialized")
+    }
 
     fun logIn(
         email: String,
@@ -29,6 +32,7 @@ class LoginViewModel @Inject constructor(
     ) {
         launchCatching(showErrorSnackbar) {
             authRepo.signIn(email, password)
+            println("tried logging in")
         }
     }
 }

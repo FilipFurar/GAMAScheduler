@@ -27,12 +27,11 @@ fun LoginScreen(
     loginViewModel: LoginViewModel = hiltViewModel(),
     showErrorSnackbar: (ErrorMessage) -> Unit
 ) {
-
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
     val mediumPadding = dimensionResource(R.dimen.padding_medium)
-    Column (
+    Column(
         verticalArrangement = Arrangement.spacedBy(mediumPadding),
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.padding(mediumPadding)
@@ -41,24 +40,28 @@ fun LoginScreen(
             text = stringResource(R.string.app_name),
             textAlign = TextAlign.Center,
         )
+
         OutlinedTextField(
-            value = "",
+            value = email,
             singleLine = true,
-            onValueChange = {email = it},
+            onValueChange = { email = it },
             label = { Text(stringResource(R.string.email)) },
             isError = false,
             keyboardActions = KeyboardActions(
                 onDone = {}
             )
         )
+
         OutlinedTextField(
-            value = "",
+            value = password,
             singleLine = true,
-            onValueChange = {password = it},
+            onValueChange = { password = it },
             label = { Text(stringResource(R.string.password)) },
             isError = false,
             keyboardActions = KeyboardActions(
-                onDone = {loginViewModel.logIn(email, password, showErrorSnackbar)}
+                onDone = {
+                    loginViewModel.logIn(email, password, showErrorSnackbar)
+                }
             )
         )
 
@@ -66,6 +69,7 @@ fun LoginScreen(
             label = R.string.login,
             onButtonClick = {
                 loginViewModel.logIn(email, password, showErrorSnackbar)
+                println("logging in with ${email} and ${password}")
             }
         )
     }
