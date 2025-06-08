@@ -13,5 +13,5 @@
     <string name="email_in_use">e-mail už je registrovaný</string>
     <string name="weak_password">heslo je príliš slabé! Minimálna dĺžka 6 znakov</string>
     <string name="calendar_screen">kalendár</string>
-    <string name="welcome">vitaj,</string>
+    <string name="welcome">vitaj, %1$s</string>
 </resources>

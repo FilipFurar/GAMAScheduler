@@ -14,5 +14,5 @@
     <string name="email_in_use">e-mail is already in use</string>
     <string name="weak_password">password is too weak! 6 chars minimum</string>
     <string name="calendar_screen">calendar</string>
-    <string name="welcome">welcome,</string>
+    <string name="welcome">welcome, %1$s</string>
 </resources>

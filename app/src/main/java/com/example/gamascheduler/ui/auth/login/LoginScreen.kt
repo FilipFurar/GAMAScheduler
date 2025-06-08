@@ -19,7 +19,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.gamascheduler.R
 import com.example.gamascheduler.data.model.ErrorMessage
-import com.example.gamascheduler.ui.auth.AuthViewModel
 import com.example.gamascheduler.ui.shared.BasicButton
 
 @Composable

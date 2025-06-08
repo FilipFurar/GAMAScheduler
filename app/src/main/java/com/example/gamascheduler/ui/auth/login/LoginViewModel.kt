@@ -1,4 +1,4 @@
-package com.example.gamascheduler.ui.auth
+package com.example.gamascheduler.ui.auth.login
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import com.example.gamascheduler.MainViewModel
@@ -36,20 +36,6 @@ class AuthViewModel @Inject constructor(
         launchCatching(showErrorSnackbar) {
             authRepo.signIn(email, password)
             onSuccess()
-        }
-    }
-    fun logOut(
-        onSignedOut: () -> Unit
-    ) {
-        launchCatching {
-            authRepo.signOut()
-            onSignedOut()
-        }
-    }
-
-    fun loadCurrentUser() {
-        launchCatching {
-            val currentUser = authRepo.currentUser
         }
     }
 }

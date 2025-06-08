@@ -2,8 +2,6 @@ package com.example.gamascheduler.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -21,7 +19,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.gamascheduler.data.model.ErrorMessage
 import com.example.gamascheduler.ui.auth.login.LoginScreen
-import com.example.gamascheduler.ui.auth.AuthViewModel
+import com.example.gamascheduler.ui.auth.login.AuthViewModel
 import com.example.gamascheduler.ui.calendar.CalendarScreen
 import kotlinx.coroutines.launch
 
@@ -78,7 +76,7 @@ fun GamaApp(
 
             composable(route = SchedulerScreen.Calendar.name) {
                 CalendarScreen(
-                    onSignOut = {
+                    navigateToLogin = {
                         navController.popBackStack(
                             route = SchedulerScreen.Login.name,
                             inclusive = true
