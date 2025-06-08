@@ -1,5 +1,7 @@
 package com.example.gamascheduler.ui
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -20,15 +22,19 @@ import androidx.navigation.compose.rememberNavController
 import com.example.gamascheduler.data.model.ErrorMessage
 import com.example.gamascheduler.ui.auth.login.LoginScreen
 import com.example.gamascheduler.ui.auth.login.AuthViewModel
+import com.example.gamascheduler.ui.calendar.AddEventScreen
 import com.example.gamascheduler.ui.calendar.CalendarScreen
+import com.example.gamascheduler.ui.calendar.CalendarViewModel
 import kotlinx.coroutines.launch
 
 enum class SchedulerScreen {
     Login,
     Calendar,
     Signup,
+    AddEvent,
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun GamaApp(
     viewModel: AuthViewModel = hiltViewModel(),
@@ -83,6 +89,19 @@ fun GamaApp(
                         )
                         navController.navigate(SchedulerScreen.Login.name)
 
+                    },
+                    navigateToAddEvent = {
+                        navController.navigate(SchedulerScreen.AddEvent.name)
+                    }
+                )
+            }
+            composable(route = SchedulerScreen.AddEvent.name) {
+                val calendarViewModel: CalendarViewModel = hiltViewModel()
+
+                AddEventScreen(
+                    viewModel = calendarViewModel,
+                    onEventCreated = {
+                        navController.popBackStack() // Go back to Calendar after event creation
                     }
                 )
             }

@@ -15,4 +15,13 @@
     <string name="weak_password">password is too weak! 6 chars minimum</string>
     <string name="calendar_screen">calendar</string>
     <string name="welcome">welcome, %1$s</string>
+    <string name="time_format">dd MMM yyyy, HH:mm</string>
+    <string name="null_string" translatable="false">N/A</string>
+    <string name="no_events">no events</string>
+    <string name="ok">ok</string>
+    <string name="cancel">cancel</string>
+    <string name="add_event">add event</string>
+    <string name="title">title</string>
+    <string name="required_field">required field</string>
+    <string name="pick_date">pick a day and time</string>
 </resources>

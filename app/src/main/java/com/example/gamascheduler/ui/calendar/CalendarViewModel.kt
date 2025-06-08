@@ -1,35 +1,79 @@
 package com.example.gamascheduler.ui.calendar
 
-import com.example.gamascheduler.MainViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.gamascheduler.data.model.Event
 import com.example.gamascheduler.data.repository.AuthRepository
-import com.google.firebase.auth.FirebaseUser
+import com.example.gamascheduler.data.repository.EventRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
-    private val authRepository: AuthRepository
-) : MainViewModel() {
-    private val _userEmail = MutableStateFlow<String?>(authRepository.currentUserEmail)
-    val userEmail: StateFlow<String?> = _userEmail
+    private val authRepository: AuthRepository,
+    private val eventRepository: EventRepository
+) : ViewModel() {
+    private val _userEmail = MutableStateFlow(authRepository.currentUserEmail)
+    val userEmail: StateFlow<String?> = _userEmail.asStateFlow()
+
+    private val _currentUserId = MutableStateFlow(authRepository.currentUser?.uid)
+    val currentUserId: StateFlow<String?> = _currentUserId.asStateFlow()
+
+    private val _events = MutableStateFlow<List<Event>>(emptyList())
+    val events: StateFlow<List<Event>> = _events.asStateFlow()
+
+    private val _addEventError = MutableStateFlow<String?>(null)
+    val addEventError: StateFlow<String?> = _addEventError.asStateFlow()
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+
+    init {
+        loadEvents()
+        loadCurrentUser()
+    }
+
+    private fun loadEvents() {
+        viewModelScope.launch {
+            eventRepository.getEvents().collectLatest { events ->
+                _events.value = events
+            }
+        }
+    }
+
+    fun addEvent(event: Event) {
+        viewModelScope.launch {
+            _addEventError.value = null
+
+            try {
+                eventRepository.createEvent(event)
+                loadEvents()
+            } catch (e: Exception) {
+                _addEventError.value = "Failed to add event: ${e.localizedMessage}"
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
 
     fun loadCurrentUser() {
         _userEmail.value = authRepository.currentUserEmail
+        _currentUserId.value = authRepository.currentUser?.uid
     }
 
-    fun logOut(
-        onSuccess: () -> Unit
-    ) {
-        launchCatching {
+    fun logOut(onSuccess: () -> Unit) {
+        viewModelScope.launch {
             authRepository.signOut()
             onSuccess()
         }
     }
 
     fun deleteAccount() {
-        launchCatching {
+        viewModelScope.launch {
             authRepository.deleteAccount()
         }
     }
