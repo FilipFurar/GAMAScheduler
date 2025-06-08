@@ -20,11 +20,8 @@ import kotlinx.coroutines.flow.SharingStarted
 class AuthRepository @Inject constructor(
     private val authRemoteDataSource: AuthRemoteDataSource
 ) {
-    val currentUser: FirebaseUser? get() = authRemoteDataSource.currentUser
-
-    // Use MutableStateFlow manually updated on login/logout
-    private val _userEmail = MutableStateFlow<String?>(currentUser?.email)
-    val userEmail: StateFlow<String?> = _userEmail
+    val currentUser: FirebaseUser? = authRemoteDataSource.currentUser
+    val currentUserIdFlow: Flow<String?> = authRemoteDataSource.currentUserIdFlow
 
     suspend fun signIn(email: String, password: String) {
         authRemoteDataSource.signIn(email, password)

@@ -22,7 +22,6 @@ class AuthViewModel @Inject constructor(
     val uiState: StateFlow<LoginUIState> = _uiState.asStateFlow()
 
     //get current user email
-    val userEmail: StateFlow<String?> = authRepo.userEmail
 
     init {
         println("LoginViewModel initialized")
@@ -45,6 +44,12 @@ class AuthViewModel @Inject constructor(
         launchCatching {
             authRepo.signOut()
             onSignedOut()
+        }
+    }
+
+    fun loadCurrentUser() {
+        launchCatching {
+            val currentUser = authRepo.currentUser
         }
     }
 }
