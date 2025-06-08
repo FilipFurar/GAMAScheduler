@@ -18,6 +18,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.NavHost
 import com.example.gamascheduler.R
 import com.example.gamascheduler.data.model.ErrorMessage
 import com.example.gamascheduler.ui.shared.BasicButton
