@@ -109,7 +109,7 @@ data class AddEventUiState(
 @Composable
 private fun AddEventTopBar() {
     TopAppBar(
-        title = { Text("Create New Event") },
+        title = { Text(stringResource(R.string.add)) },
         navigationIcon = {
             IconButton(onClick = { /* Handle back */ }) {
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -233,6 +233,7 @@ private fun DateTimePickerDialog(
 ) {
     val datePickerState = rememberDatePickerState()
     val timePickerState = rememberTimePickerState()
+    val scrollState = rememberScrollState()
 
     Dialog(onDismissRequest = onDismiss) {
         Surface(
@@ -242,19 +243,23 @@ private fun DateTimePickerDialog(
                 .wrapContentHeight()
                 .padding(dimensionResource(R.dimen.padding_medium))
         ) {
-            Column(modifier = Modifier.padding(dimensionResource(R.dimen.padding_small))) {
+            Column(
+                modifier = Modifier
+                    .padding(dimensionResource(R.dimen.padding_small))
+                    .verticalScroll(scrollState)
+            ) {
                 Text(
                     text = stringResource(R.string.pick_date),
                     style = MaterialTheme.typography.titleSmall
                 )
 
-                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
+                Spacer(modifier = Modifier.height(8.dp))
 
                 Box(modifier = Modifier.fillMaxWidth()) {
                     DatePicker(
                         state = datePickerState,
                         modifier = Modifier
-                            .scale(0.8f) // scale down a bit
+                            .scale(0.85f)
                             .align(Alignment.Center)
                     )
                 }
@@ -265,12 +270,12 @@ private fun DateTimePickerDialog(
                     TimePicker(
                         state = timePickerState,
                         modifier = Modifier
-                            .scale(0.8f)
+                            .scale(0.85f)
                             .align(Alignment.Center)
                     )
                 }
 
-                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
+                Spacer(modifier = Modifier.height(16.dp))
 
                 Row(
                     horizontalArrangement = Arrangement.End,
@@ -279,7 +284,7 @@ private fun DateTimePickerDialog(
                     TextButton(onClick = onDismiss) {
                         Text(stringResource(R.string.cancel))
                     }
-                    Spacer(modifier = Modifier.width(dimensionResource(R.dimen.padding_small)))
+                    Spacer(modifier = Modifier.width(8.dp))
                     Button(onClick = {
                         val selectedDateMillis = datePickerState.selectedDateMillis
                         if (selectedDateMillis != null) {
@@ -300,6 +305,7 @@ private fun DateTimePickerDialog(
         }
     }
 }
+
 
 
 @RequiresApi(Build.VERSION_CODES.O)

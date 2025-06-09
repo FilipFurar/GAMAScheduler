@@ -25,7 +25,9 @@ class EventRemoteDataSource @Inject constructor(
 
                 if (snapshot != null) {
                     try {
-                        val events = snapshot.toObjects(Event::class.java)
+                        val events = snapshot.documents.mapNotNull { doc ->
+                            doc.toObject(Event::class.java)?.copy(id = doc.id)
+                        }
                         trySend(events)
                     } catch (e: Exception) {
                         close(e)
@@ -37,8 +39,9 @@ class EventRemoteDataSource @Inject constructor(
     }
 
     suspend fun createEvent(event: Event) {
-        val docRef = firestore.collection(EVENT_COLLECTION).add(event).await()
-        docRef.update("id", docRef.id)
+        val docRef = firestore.collection(EVENT_COLLECTION).document()
+        val eventWithId = event.copy(id = docRef.id)
+        docRef.set(eventWithId).await()
     }
 
 

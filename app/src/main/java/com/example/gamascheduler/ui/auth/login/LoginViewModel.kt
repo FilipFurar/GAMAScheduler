@@ -24,7 +24,6 @@ class AuthViewModel @Inject constructor(
     //get current user email
 
     init {
-        println("LoginViewModel initialized")
     }
 
     fun logIn(
